@@ -15,7 +15,8 @@ defineProps<{
       </view>
       <navigator hover-class="none" url="/pages/hot/hot" class="cards">
         <image
-          v-for="cItem in item.pictures" :key="cItem"
+          v-for="cItem in item.pictures"
+          :key="cItem"
           class="image"
           mode="aspectFit"
           :src="cItem"

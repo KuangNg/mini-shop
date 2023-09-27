@@ -46,7 +46,8 @@ const onRefresh = async () => {
     getHomepageBannerData(),
     getMenuCategoryData(),
     getHotListData(),
-    guessRef.value?.getGoodsGuessList()])
+    guessRef.value?.getGoodsGuessList(),
+  ])
   // 关闭动画
   isTriggered.value = false
 }
@@ -56,10 +57,7 @@ onLoad(async () => {
   // 开启骨架屏
   isLoading.value = true
   // 加载数据
-  await Promise.all([
-    getHomepageBannerData(),
-    getMenuCategoryData(),
-    getHotListData()])
+  await Promise.all([getHomepageBannerData(), getMenuCategoryData(), getHotListData()])
   // 关闭骨架屏
   isLoading.value = false
 })
@@ -68,8 +66,14 @@ onLoad(async () => {
 <template>
   <!-- 自定义导航栏 -->
   <CustomNavbar></CustomNavbar>
-  <scroll-view class="home-content" scroll-y refresher-enabled :refresher-triggered="isTriggered"
-    @refresherrefresh="onRefresh" @scrolltolower="listScrolltolower">
+  <scroll-view
+    class="home-content"
+    scroll-y
+    refresher-enabled
+    :refresher-triggered="isTriggered"
+    @refresherrefresh="onRefresh"
+    @scrolltolower="listScrolltolower"
+  >
     <!-- 骨架屏 -->
     <PageSkeleton v-if="isLoading"></PageSkeleton>
     <template v-else>
@@ -85,7 +89,7 @@ onLoad(async () => {
   </scroll-view>
 </template>
 
-<style lang="scss" >
+<style lang="scss">
 page {
   background-color: #f7f7f7;
   height: 100%;
