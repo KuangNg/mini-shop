@@ -1,5 +1,7 @@
 // /src/pages/hot/hot.vue
 <script setup lang="ts">
+import { onLoad } from '@dcloudio/uni-app'
+
 // 热门推荐页 标题和url
 const hotMap = [
   { type: '1', title: '特惠推荐', url: '/hot/preference' },
@@ -7,6 +9,19 @@ const hotMap = [
   { type: '3', title: '一站买全', url: '/hot/oneStop' },
   { type: '4', title: '新鲜好物', url: '/hot/new' },
 ]
+// 获取页面参数
+// 方式一
+// const query = defineProps<{
+//     type: string
+// }>()
+// const currHot = hotMap.find(item => item.type === query.type)
+// uni.setNavigationBarTitle({title: currHot!.title})
+
+// 方式二
+onLoad((options = {}) => {
+  const currHot = hotMap.find((item) => item.type === options.type)
+  uni.setNavigationBarTitle({ title: currHot!.title })
+})
 </script>
 
 <template>
@@ -15,7 +30,8 @@ const hotMap = [
     <view class="cover">
       <image
         src="http://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-05-20/84abb5b1-8344-49ae-afc1-9cb932f3d593.jpg"
-      ></image>
+      >
+      </image>
     </view>
     <!-- 推荐选项 -->
     <view class="tabs">
@@ -35,7 +51,8 @@ const hotMap = [
           <image
             class="thumb"
             src="https://yanxuan-item.nosdn.127.net/5e7864647286c7447eeee7f0025f8c11.png"
-          ></image>
+          >
+          </image>
           <view class="name ellipsis">不含酒精，使用安心爽肤清洁湿巾</view>
           <view class="price">
             <text class="symbol">¥</text>
@@ -53,6 +70,7 @@ page {
   height: 100%;
   background-color: #f4f4f4;
 }
+
 .viewport {
   display: flex;
   flex-direction: column;
@@ -60,6 +78,7 @@ page {
   padding: 180rpx 0 0;
   position: relative;
 }
+
 .cover {
   width: 750rpx;
   height: 225rpx;
@@ -69,9 +88,11 @@ page {
   left: 0;
   top: 0;
 }
+
 .scroll-view {
   flex: 1;
 }
+
 .tabs {
   display: flex;
   justify-content: space-evenly;
@@ -85,10 +106,12 @@ page {
   background-color: #fff;
   position: relative;
   z-index: 9;
+
   .text {
     margin: 0 20rpx;
     position: relative;
   }
+
   .active {
     &::after {
       content: '';
@@ -102,11 +125,13 @@ page {
     }
   }
 }
+
 .goods {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 0 20rpx 20rpx;
+
   .navigator {
     width: 345rpx;
     padding: 20rpx;
@@ -114,22 +139,27 @@ page {
     border-radius: 10rpx;
     background-color: #fff;
   }
+
   .thumb {
     width: 305rpx;
     height: 305rpx;
   }
+
   .name {
     height: 88rpx;
     font-size: 26rpx;
   }
+
   .price {
     line-height: 1;
     color: #cf4444;
     font-size: 30rpx;
   }
+
   .symbol {
     font-size: 70%;
   }
+
   .decimal {
     font-size: 70%;
   }
