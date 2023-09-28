@@ -14,7 +14,9 @@ const finish = ref(false)
 // 获取列表数据
 const getGoodsGuessList = async () => {
   // 列表加载完成, 中断执行
-  if (finish.value) return
+  if (finish.value) {
+    return uni.showToast({ icon: 'none', title: '没有更多数据了~' })
+  }
   // 数据请求
   const res = await getGoodsGuessLikeAPI(pageParams)
   guessList.value.push(...res.result.items)

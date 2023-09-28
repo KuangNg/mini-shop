@@ -1,6 +1,9 @@
 // /src/pages/hot/hot.vue
 <script setup lang="ts">
+import { ref } from 'vue'
+import { getHotRecommendAPI, type HotParams } from '@/services/hot'
 import { onLoad } from '@dcloudio/uni-app'
+import type { SubTypeItem } from '@/types/hot'
 
 // 热门推荐页 标题和url
 const hotMap = [
@@ -9,18 +12,57 @@ const hotMap = [
   { type: '3', title: '一站买全', url: '/hot/oneStop' },
   { type: '4', title: '新鲜好物', url: '/hot/new' },
 ]
+
 // 获取页面参数
 // 方式一
-// const query = defineProps<{
-//     type: string
-// }>()
-// const currHot = hotMap.find(item => item.type === query.type)
-// uni.setNavigationBarTitle({title: currHot!.title})
+const query = defineProps<{
+  type: string
+}>()
+const currHot = hotMap.find((item) => item.type === query.type)
+// 设置标题
+uni.setNavigationBarTitle({ title: currHot!.title })
 
-// 方式二
-onLoad((options = {}) => {
-  const currHot = hotMap.find((item) => item.type === options.type)
-  uni.setNavigationBarTitle({ title: currHot!.title })
+// 推荐封面图
+const bannerPicture = ref('')
+// 推荐选项
+const subTypes = ref<(SubTypeItem & { finish?: boolean })[]>([])
+// 高亮的下标
+const activeTabIndex = ref(0)
+
+// 获取热门推荐商品数据
+const getHotRecommend = async () => {
+  const res = await getHotRecommendAPI(currHot!.url)
+  bannerPicture.value = res.result.bannerPicture
+  subTypes.value = res.result.subTypes
+}
+// 滚动列表实例
+const scrollRef = ref()
+// 列表触底
+const listScrolltolower = async () => {
+  // 获取当前tab列表
+  const currSubTypes = subTypes.value[activeTabIndex.value]
+//   分页条件
+  if (currSubTypes.goodsItems.page < currSubTypes.goodsItems.pages) {
+    currSubTypes.goodsItems.page++
+  } else {
+    // 标记已结束
+    currSubTypes.finish = true
+    // 退出并轻提示
+    return uni.showToast({ icon: 'none', title: '没有更多数据了~' })
+  }
+  // 获取列表数据
+  const res = await getHotRecommendAPI(currHot!.url, {
+    page: currSubTypes.goodsItems.page,
+    pageSize: currSubTypes.goodsItems.pageSize,
+    subType: currSubTypes.id,
+  })
+  // 新的列表选项
+  const newsubTypes = res.result.subTypes[activeTabIndex.value]
+  //数据追加
+  currSubTypes.goodsItems.items.push(...newsubTypes.goodsItems.items)
+}
+onLoad(async () => {
+  getHotRecommend()
 })
 </script>
 
@@ -28,39 +70,46 @@ onLoad((options = {}) => {
   <view class="viewport">
     <!-- 推荐封面图 -->
     <view class="cover">
-      <image
-        src="http://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-05-20/84abb5b1-8344-49ae-afc1-9cb932f3d593.jpg"
-      >
-      </image>
+      <image :src="bannerPicture"> </image>
     </view>
     <!-- 推荐选项 -->
     <view class="tabs">
-      <text class="text active">抢先尝鲜</text>
-      <text class="text">新品预告</text>
+      <text
+        class="text"
+        :class="{ active: activeTabIndex == index }"
+        v-for="(item, index) in subTypes"
+        :key="item.id"
+        @tap="activeTabIndex = index"
+        >{{ item.title }}</text
+      >
     </view>
     <!-- 推荐列表 -->
-    <scroll-view scroll-y class="scroll-view">
+    <scroll-view
+      scroll-y
+      ref="scrollRef"
+      class="scroll-view"
+      v-show="activeTabIndex == index"
+      v-for="(item, index) in subTypes"
+      :key="item.id"
+      @scrolltolower="listScrolltolower"
+    >
       <view class="goods">
         <navigator
           hover-class="none"
           class="navigator"
-          v-for="goods in 10"
-          :key="goods"
-          :url="`/pages/goods/goods?id=`"
+          v-for="goods in item.goodsItems.items"
+          :key="goods.id"
+          :url="`/pages/goods/goods?id=${goods.id}`"
         >
-          <image
-            class="thumb"
-            src="https://yanxuan-item.nosdn.127.net/5e7864647286c7447eeee7f0025f8c11.png"
-          >
-          </image>
-          <view class="name ellipsis">不含酒精，使用安心爽肤清洁湿巾</view>
+          <image class="thumb" :src="goods.picture"> </image>
+          <view class="name ellipsis">{{ goods.name }}</view>
           <view class="price">
             <text class="symbol">¥</text>
-            <text class="number">29.90</text>
+            <text class="number">{{ goods.price }}</text>
           </view>
         </navigator>
       </view>
-      <view class="loading-text">正在加载...</view>
+      <view class="loading-text">{{ item.finish?"没有更多数据了~":"正在加载..." }}</view>
     </scroll-view>
   </view>
 </template>
