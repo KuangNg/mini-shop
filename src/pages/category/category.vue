@@ -36,7 +36,6 @@ onLoad(async () => {
 </script>
 
 <template>
-<<<<<<< HEAD
   <PageSkeleton v-if="!isFinish"></PageSkeleton>
   <view v-else class="viewport">
     <!-- 搜索框 -->
@@ -253,11 +252,4 @@ page {
     }
   }
 }
-=======
-  <slider :value="sliderVal" @changing="sliderChange" :min="0" :max="1" :step="0.1" />
-</template>
-
-<style lang="scss">
-//
->>>>>>> a02945c808a08280fdb6335fedc7603d0a61318b
 </style>
