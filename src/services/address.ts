@@ -7,21 +7,21 @@ import { http } from '@/utils/http'
  * @param data 请求参数
  */
 export const postMemberAddressAPI = (data: AddressParams) => {
-    return http({
-        method: 'POST',
-        url: '/member/address',
-        data,
-    })
+  return http({
+    method: 'POST',
+    url: '/member/address',
+    data,
+  })
 }
 
 /**
  * 获取收货地址列表
  */
 export const getMemberAddressAPI = () => {
-    return http<AddressItem[]>({
-        method: 'GET',
-        url: '/member/address',
-    })
+  return http<AddressItem[]>({
+    method: 'GET',
+    url: '/member/address',
+  })
 }
 
 /**
@@ -29,12 +29,11 @@ export const getMemberAddressAPI = () => {
  * @param id 地址id(路径参数)
  */
 export const getMemberAddressByIdAPI = (id: string) => {
-    return http<AddressItem>({
-        method: 'GET',
-        url: `/member/address/${id}`,
-    })
+  return http<AddressItem>({
+    method: 'GET',
+    url: `/member/address/${id}`,
+  })
 }
-
 
 /**
  * 修改收货地址
@@ -42,11 +41,11 @@ export const getMemberAddressByIdAPI = (id: string) => {
  * @param data 表单数据(请求体参数)
  */
 export const putMemberAddressByIdAPI = (id: string, data: AddressParams) => {
-    return http({
-        method: 'PUT',
-        url: `/member/address/${id}`,
-        data,
-    })
+  return http({
+    method: 'PUT',
+    url: `/member/address/${id}`,
+    data,
+  })
 }
 
 /**
@@ -54,8 +53,8 @@ export const putMemberAddressByIdAPI = (id: string, data: AddressParams) => {
  * @param id 地址id(路径参数)
  */
 export const delMemberAddressByIdAPI = (id: string) => {
-    return http({
-        method: 'DELETE',
-        url: `/member/address/${id}`
-    })
+  return http({
+    method: 'DELETE',
+    url: `/member/address/${id}`,
+  })
 }

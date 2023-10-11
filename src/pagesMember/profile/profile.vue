@@ -5,12 +5,11 @@ import { getMemberProfileAPI, modifyMemberProfileAPI } from '@/services/profile'
 import type { Gender, ProfileDetail } from '@/types/member'
 import { useMemberStore } from '@/stores'
 
-
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 const memberStore = useMemberStore()
 
-// 个人信息 修改个人信息需提供初始值  
+// 个人信息 修改个人信息需提供初始值
 const profile = ref({} as ProfileDetail)
 // 获取个人信息
 const getMemberProfileData = async () => {
@@ -28,7 +27,7 @@ const onModifyAvatar = () => {
       const { tempFilePath } = res.tempFiles[0]
       // 上传并且更新头像
       uni.uploadFile({
-        name: 'file', // 后端数据字段名 
+        name: 'file', // 后端数据字段名
         url: '/member/profile/avatar',
         filePath: tempFilePath, // 新头像
         success: (result) => {
@@ -69,10 +68,13 @@ const onFullLocationChange: UniHelper.RegionPickerOnChange = (ev) => {
 const onSave = async () => {
   const { nickname, gender, profession, birthday } = profile.value
   const res = await modifyMemberProfileAPI({
-    nickname, gender, profession, birthday,
+    nickname,
+    gender,
+    profession,
+    birthday,
     provinceCode: fullLocationCode[0],
     cityCode: fullLocationCode[1],
-    countyCode: fullLocationCode[2]
+    countyCode: fullLocationCode[2],
   })
   // 更新仓库
   memberStore.profile!.nickname = res.result.nickname
@@ -84,7 +86,7 @@ const onSave = async () => {
       setTimeout(() => {
         uni.navigateBack()
       }, 400)
-    }
+    },
   })
 }
 
@@ -135,15 +137,26 @@ onLoad(() => {
         </view>
         <view class="form-item">
           <text class="label">生日</text>
-          <picker class="picker" mode="date" start="1900-01-01" :end="new Date()" :value="profile?.birthday"
-            @change="onBirthdayChange">
+          <picker
+            class="picker"
+            mode="date"
+            start="1900-01-01"
+            :end="new Date()"
+            :value="profile?.birthday"
+            @change="onBirthdayChange"
+          >
             <view v-if="profile?.birthday">{{ profile?.birthday }}</view>
             <view class="placeholder" v-else>请选择日期</view>
           </picker>
         </view>
         <view class="form-item">
           <text class="label">城市</text>
-          <picker class="picker" mode="region" :value="profile.fullLocation?.split(' ')" @change="onFullLocationChange">
+          <picker
+            class="picker"
+            mode="region"
+            :value="profile.fullLocation?.split(' ')"
+            @change="onFullLocationChange"
+          >
             <view v-if="profile.fullLocation">{{ profile.fullLocation }}</view>
             <view class="placeholder" v-else>请选择城市</view>
           </picker>

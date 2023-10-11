@@ -32,7 +32,7 @@ const getHotListData = async () => {
 }
 
 // 猜你喜欢组合式函数
-const {guessRef, listScrolltolower } = useGuessList()
+const { guessRef, listScrolltolower } = useGuessList()
 
 // 是否开启下拉刷新动画
 const isTriggered = ref(false)

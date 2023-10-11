@@ -39,7 +39,10 @@ export type ProfileDetail = commonTpye & {
 export type Gender = '女' | '男'
 
 /** 个人信息 修改用户详情信息入参 */
-export type ModifyProfileParams = Pick<ProfileDetail, 'nickname' | 'birthday' | 'gender' | 'profession'> & {
+export type ModifyProfileParams = Pick<
+  ProfileDetail,
+  'nickname' | 'birthday' | 'gender' | 'profession'
+> & {
   /**省份编码*/
   provinceCode?: string
   /**城市编码*/
@@ -47,4 +50,3 @@ export type ModifyProfileParams = Pick<ProfileDetail, 'nickname' | 'birthday' | 
   /**区/县编码*/
   countyCode?: string
 }
-

@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { getMemberAddressByIdAPI, postMemberAddressAPI, putMemberAddressByIdAPI } from '@/services/address';
-import { onLoad } from '@dcloudio/uni-app';
+import {
+  getMemberAddressByIdAPI,
+  postMemberAddressAPI,
+  putMemberAddressByIdAPI,
+} from '@/services/address'
+import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 
 // 表单数据
@@ -47,7 +51,6 @@ const onFullLocationChange: UniHelper.RegionPickerOnChange = (ev) => {
   const [provinceCode, cityCode, countyCode] = ev.detail.code!
   // 合并数据
   Object.assign(form.value, { provinceCode, cityCode, countyCode })
-
 }
 
 // 设置是否为默认地址
@@ -80,7 +83,6 @@ const onSubmit = async () => {
   } catch (error) {
     uni.showToast({ icon: 'error', title: '请填写完整信息' })
   }
-
 }
 // 修改地址-获取地址详情
 const getMemberAddressByIdData = async () => {
@@ -112,7 +114,12 @@ onLoad(() => {
       </uni-forms-item>
       <uni-forms-item name="fullLocation" class="form-item">
         <text class="label">所在地区</text>
-        <picker class="picker" mode="region" :value="form.fullLocation.split(' ')" @change="onFullLocationChange">
+        <picker
+          class="picker"
+          mode="region"
+          :value="form.fullLocation.split(' ')"
+          @change="onFullLocationChange"
+        >
           <view v-if="form.fullLocation">{{ form.fullLocation }}</view>
           <view v-else class="placeholder">请选择省/市/区(县)</view>
         </picker>
@@ -123,7 +130,12 @@ onLoad(() => {
       </uni-forms-item>
       <uni-forms-item name="isDefault" class="form-item">
         <label class="label">设为默认地址</label>
-        <switch class="switch" color="#27ba9b" :checked="form.isDefault === 1" @change="onSwitchChange" />
+        <switch
+          class="switch"
+          color="#27ba9b"
+          :checked="form.isDefault === 1"
+          @change="onSwitchChange"
+        />
       </uni-forms-item>
     </uni-forms>
   </view>

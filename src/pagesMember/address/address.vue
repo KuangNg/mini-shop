@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { delMemberAddressByIdAPI, getMemberAddressAPI } from '@/services/address';
-import type { AddressItem } from '@/types/goods';
+import { delMemberAddressByIdAPI, getMemberAddressAPI } from '@/services/address'
+import type { AddressItem } from '@/types/goods'
 import { onShow } from '@dcloudio/uni-app'
-import { ref } from 'vue';
+import { ref } from 'vue'
 // 滑动按钮配置
-const rightOptions: UniHelper.UniSwipeActionItemOption[] = [{ text: '删除', style: { 'backgroundColor': '#e43d33', 'color': "#3a3a3a", "fontSize": "14px" } }]
+const rightOptions: UniHelper.UniSwipeActionItemOption[] = [
+  { text: '删除', style: { backgroundColor: '#e43d33', color: '#3a3a3a', fontSize: '14px' } },
+]
 //获取地址管理列表
 const addressList = ref<AddressItem[]>([])
 const getAddressListData = async () => {
@@ -23,12 +25,12 @@ const deleteAddress = (id: string) => {
         await delMemberAddressByIdAPI(id)
         // 轻提示
         uni.showToast({
-          title: "删除成功",
-          icon: "success",
+          title: '删除成功',
+          icon: 'success',
           success: () => {
             // 重新加载数据
             getAddressListData()
-          }
+          },
         })
       }
     },
@@ -38,7 +40,7 @@ const deleteAddress = (id: string) => {
 // 初始化调用(页面显示)
 onShow(() => {
   getAddressListData()
-}) 
+})
 </script>
 
 <template>
@@ -48,8 +50,13 @@ onShow(() => {
       <view v-if="addressList.length" class="address">
         <uni-swipe-action class="address-list">
           <!-- 收货地址项 -->
-          <uni-swipe-action-item class="item" :right-options="rightOptions" v-for="item in addressList" :key="item.id"
-            @click="deleteAddress(item.id)">
+          <uni-swipe-action-item
+            class="item"
+            :right-options="rightOptions"
+            v-for="item in addressList"
+            :key="item.id"
+            @click="deleteAddress(item.id)"
+          >
             <view class="item-content">
               <view class="user">
                 {{ item.receiver }}
@@ -57,7 +64,11 @@ onShow(() => {
                 <text v-if="item.isDefault" class="badge">默认</text>
               </view>
               <view class="locate">{{ item.fullLocation }}</view>
-              <navigator class="edit" hover-class="none" :url="`/pagesMember/address-form/address-form?id=${item.id}`">
+              <navigator
+                class="edit"
+                hover-class="none"
+                :url="`/pagesMember/address-form/address-form?id=${item.id}`"
+              >
                 修改
               </navigator>
             </view>
