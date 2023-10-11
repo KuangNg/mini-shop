@@ -17,7 +17,8 @@
       "@dcloudio/types",
       "miniprogram-api-typings",
       "@uni-helper/uni-app-types",
-      "@uni-helper/uni-ui-types"
+      "@uni-helper/uni-ui-types",
+      // "@types/wechat-miniprogram",
     ]
   },
   "vueCompilerOptions": {

@@ -10,6 +10,7 @@ import { getHomepageBannerAPI, getMenuCategoryAPI, getHotAPI } from '@/services/
 import type { BannerItem, CategoryItem, HotItem } from '@/types/homepage'
 import type { vGuessInstance } from '@/types/component'
 import { onLoad } from '@dcloudio/uni-app'
+import { useGuessList } from '@/composables'
 // 广告区域数据
 let bannerList = ref<BannerItem[]>([])
 const getHomepageBannerData = async () => {
@@ -29,11 +30,10 @@ const getHotListData = async () => {
   const res = await getHotAPI()
   hotList.value = res.result
 }
-// 获取猜你喜欢实例
-const guessRef = ref<vGuessInstance>()
-const listScrolltolower = () => {
-  guessRef.value?.getGoodsGuessList()
-}
+
+// 猜你喜欢组合式函数
+const {guessRef, listScrolltolower } = useGuessList()
+
 // 是否开启下拉刷新动画
 const isTriggered = ref(false)
 // 下拉刷新
