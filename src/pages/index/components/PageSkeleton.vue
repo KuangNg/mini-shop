@@ -1,9 +1,15 @@
 <template name="skeleton">
   <view class="sk-container">
-    <scroll-view refresher-enabled="true" scroll-y="true" class="home-content">
+    <scroll-view :refresher-enabled="true" :scroll-y="true" class="home-content">
       <view is="components/v-swiper">
         <view class="carousel swiper--carousel">
-          <swiper :ircular="true" :interval="3000" :autoplay="false" :current="0"></swiper>
+          <swiper
+            style="height: 280rpx"
+            :ircular="true"
+            :interval="3000"
+            :autoplay="false"
+            :current="0"
+          ></swiper>
           <view class="indicator swiper--indicator">
             <text class="dot swiper--dot"></text>
             <text class="dot swiper--dot"></text>
@@ -156,7 +162,14 @@
     </scroll-view>
   </view>
 </template>
-<style>
+<style lang="scss">
+/* #ifdef H5 || APP-PLUS */
+@import '@/components/style/v-guess.scss';
+@import '@/components/style/v-swiper.scss';
+@import './style/HotPanel.scss';
+@import './style/CategoryPanel.scss';
+/* #endif */
+
 .sk-transparent {
   color: transparent !important;
 }

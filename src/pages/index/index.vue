@@ -8,7 +8,6 @@ import PageSkeleton from './components/PageSkeleton.vue'
 // 文件引入
 import { getHomepageBannerAPI, getMenuCategoryAPI, getHotAPI } from '@/services/homepage'
 import type { BannerItem, CategoryItem, HotItem } from '@/types/homepage'
-import type { vGuessInstance } from '@/types/component'
 import { onLoad } from '@dcloudio/uni-app'
 import { useGuessList } from '@/composables'
 // 广告区域数据
@@ -78,7 +77,7 @@ onLoad(async () => {
     <PageSkeleton v-if="isLoading"></PageSkeleton>
     <template v-else>
       <!-- 广告区域banner -->
-      <v-swiper :list="bannerList" autoplay></v-swiper>
+      <v-swiper style="height: 280rpx" :list="bannerList" autoplay></v-swiper>
       <!-- 菜单分类面板 -->
       <CategoryPanel :list="menuCategoryList"></CategoryPanel>
       <!-- 热门推荐 -->
@@ -90,6 +89,9 @@ onLoad(async () => {
 </template>
 
 <style lang="scss">
+/* #ifdef APP-PLUS */
+#app,
+/* #endif */
 page {
   background-color: #f7f7f7;
   height: 100%;

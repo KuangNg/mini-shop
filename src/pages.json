@@ -22,6 +22,12 @@
 			}
 		},
 		{
+			"path": "pages/cart/cart2",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		},
+		{
 			"path": "pages/category/category",
 			"style": {
 				"navigationBarTitleText": "分类"
@@ -97,6 +103,7 @@
 	"subPackages": [
 		{
 			// 子包的根目录
+			// 会员模块页面分包
 			"root": "pagesMember",
 			// 页面路径和窗口表现
 			"pages": [
@@ -124,6 +131,38 @@
 					"path": "address-form/address-form",
 					"style": {
 						"navigationBarTitleText": ""
+					}
+				}
+			]
+		},
+		{
+			// 订单页面分包
+			"root": "pagesOrder",
+			"pages": [
+				{
+					"path": "create/create",
+					"style": {
+						"navigationBarTitleText": "填写订单"
+					}
+				},
+				{
+					"path": "detail/detail",
+					"style": {
+						"navigationBarTitleText": "订单详情",
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "payment/payment",
+					"style": {
+						// "navigationBarTitleText": "",
+						"navigationStyle": "custom"
+					}
+				},
+				{
+					"path": "list/list",
+					"style": {
+						"navigationBarTitleText": "我的订单"
 					}
 				}
 			]

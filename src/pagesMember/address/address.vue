@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { delMemberAddressByIdAPI, getMemberAddressAPI } from '@/services/address'
+import { useAddressStore } from '@/stores/modules/address'
 import type { AddressItem } from '@/types/goods'
 import { onShow } from '@dcloudio/uni-app'
 import { ref } from 'vue'
@@ -37,6 +38,19 @@ const deleteAddress = (id: string) => {
   })
 }
 
+// 改变默认地址
+const onChangeDefaultAddress = (ev: AddressItem) => {
+  // 地址仓库
+  const addressStore = useAddressStore()
+  // 修改仓库
+  addressStore.changeDefaultAddress(ev)
+  uni.navigateBack()
+}
+// 页面跳转到地址表单
+const onMidifyAddree = (id: string) => {
+  uni.navigateTo({ url: `/pagesMember/address-form/address-form?id=${id}` })
+}
+
 // 初始化调用(页面显示)
 onShow(() => {
   getAddressListData()
@@ -57,20 +71,26 @@ onShow(() => {
             :key="item.id"
             @click="deleteAddress(item.id)"
           >
-            <view class="item-content">
+            <view class="item-content" @tap="onChangeDefaultAddress(item)">
               <view class="user">
                 {{ item.receiver }}
                 <text class="contact">{{ item.contact }}</text>
                 <text v-if="item.isDefault" class="badge">默认</text>
               </view>
               <view class="locate">{{ item.fullLocation }}</view>
+              <!-- #ifndef H5 -->
               <navigator
                 class="edit"
                 hover-class="none"
                 :url="`/pagesMember/address-form/address-form?id=${item.id}`"
+                @tap.stop
               >
                 修改
               </navigator>
+              <!-- #endif -->
+              <!-- #ifdef H5 -->
+              <view class="edit" @tap.stop="onMidifyAddree(item.id)">修改</view>
+              <!-- #endif -->
             </view>
           </uni-swipe-action-item>
         </uni-swipe-action>
